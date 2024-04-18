@@ -1,0 +1,10 @@
+.booking__title {
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+@media screen and (max-width: 499px) {
+    .booking__title  {
+        margin-bottom: 20px;
+    }
+}

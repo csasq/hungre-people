@@ -1,0 +1,18 @@
+.menu__item {
+    display: flex;
+    width: 363px;
+}
+
+@media screen and (max-width: 474px) {
+    .menu__item {
+        width: 300px;
+        justify-content: space-between;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .menu__item {
+        width: 260px;
+        justify-content: space-between;
+    }
+}

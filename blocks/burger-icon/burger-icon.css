@@ -1,0 +1,11 @@
+.burger-icon {
+    cursor: pointer;
+    display: none;
+    position: relative;
+}
+
+@media screen and (max-width: 999px) {
+    .burger-icon {
+        display: inline-block;
+    }
+}

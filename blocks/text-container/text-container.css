@@ -1,0 +1,28 @@
+.text-container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 117px;
+    align-items: center;
+    max-width: 600px;
+    padding-right: 80px;
+    padding-left: 81px;
+}
+
+@media screen and (max-width: 1119px) {
+    .text-container {
+        padding-top: 70px;
+    }
+}
+
+@media screen and (max-width: 969px) {
+    .text-container {
+        padding-top: 0;
+    }
+}
+
+@media screen and (max-width: 829px) {
+    .text-container {
+        padding-right: 50px;
+        padding-left: 50px;
+    }
+}

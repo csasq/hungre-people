@@ -1,0 +1,28 @@
+.work-hours__text {
+    margin: 0;
+    writing-mode: vertical-rl;
+    transform:rotate(180deg);
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 100%;
+    text-align: center;
+    color: #FFFFFF;
+    display: block;
+}
+
+@media screen and (max-width: 599px) {
+    .work-hours__text {
+        writing-mode: initial;
+        transform:rotate(0);
+        margin-bottom: 30px;
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 469px) {
+    .work-hours__text {
+        max-width: 200px;
+        font-weight: normal;
+    }
+}

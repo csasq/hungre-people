@@ -1,0 +1,28 @@
+.title-container__text {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 117%;
+    text-align: center;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    display: block;
+    margin-top: 2px;
+    margin-right: 0;
+    margin-left: 0;
+    margin-bottom: 15px;
+}
+
+@media screen and (max-width: 599px) {
+    .title-container__text {
+        margin-bottom: 30px;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 469px) {
+    .title-container__title {
+        font-size: 12px;
+    }
+}
