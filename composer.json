@@ -1,0 +1,11 @@
+{
+  "name": "csasq/hungry-people",
+  "description": "Web application for Hungry People restaurant",
+  "type": "project",
+  "require": {
+    "php": "^8.0",
+    "ext-pdo": "^8.0",
+    "phpmailer/phpmailer": "^6.9.1",
+    "illuminate/database": "^8.0"
+  }
+}

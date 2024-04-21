@@ -1,48 +1,66 @@
 <?php
-// Подключение к базе данных
-$host = 'localhost';
-$db = 'your_database';
-$user = 'your_username';
-$pass = 'your_password';
 
-try {
-    $dbh = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
-} catch (PDOException $e) {
-    die("Unable to connect to database: " . $e->getMessage());
-}
+require '/usr/local/etc/hungre-people.csasq.ru/config.php';
 
-// Логика создания сессии
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Получаем данные из тела запроса
-    $requestData = json_decode(file_get_contents('php://input'), true);
-
-    // Проверяем наличие электронной почты и пароля в запросе
-    if (!isset($requestData['email']) || !isset($requestData['password'])) {
+function post($data) {
+    try {
+        global $config;
+        $connection = new PDO(
+            $config['db:coninfo'],
+            $config['db:username'],
+            $config['db:password'],
+        );
+        $cursor = $connection->prepare('select id from users where email_address = :email_address and password_hash = sha(:password);');
+        $cursor->bindValue(':email_address', $data['email_address']);
+        $cursor->bindValue(':password', $data['password']);
+        $cursor->execute();
+        $user_id = $cursor->fetch()['id'];
+        $access_token = random_bytes(32);
+        $cursor = $connection->prepare('insert into sessions (user_id, access_token) values (:user_id, :access_token);');
+        $cursor->bindValue(':user_id', $user_id);
+        $cursor->bindValue(':access_token', $access_token);
+        $cursor->execute();
+        setcookie(
+            'access_token',
+            bin2hex($access_token),
+            array(
+                'path' => '/',
+                'secure' => true,
+                'httponly' => false,
+            ),
+        );
+    } catch (PDOException $exception) {
         http_response_code(400);
-        echo json_encode(["message" => "Missing email or password"]);
-        exit();
     }
-
-    // Проверяем правильность электронной почты и пароля (реализуйте эту логику сами)
-
-    // Если аутентификация прошла успешно, создаем сессию
-    $userEmail = $requestData['email'];
-    $sessionId = uniqid();
-    $userId = 1; // Здесь должна быть логика получения ID пользователя из базы данных
-
-    // Вставляем данные сессии в таблицу
-    $stmt = $dbh->prepare("INSERT INTO sessions (user_id, session_token) VALUES (:user_id, :session_token)");
-    $stmt->bindParam(':user_id', $userId);
-    $stmt->bindParam(':session_token', $sessionId);
-    $stmt->execute();
-
-    // Возвращаем токен сессии
-    http_response_code(200);
-    echo json_encode(["session_token" => $sessionId]);
-    exit();
-} else {
-    http_response_code(405);
-    echo json_encode(["message" => "Method Not Allowed"]);
-    exit();
 }
-?>
+
+function delete($data) {
+    try {
+        global $config;
+        $connection = new PDO(
+            $config['db:coninfo'],
+            $config['db:username'],
+            $config['db:password'],
+        );
+        $cursor = $connection->prepare('delete from sessions where access_token = :access_token;');
+        $cursor->bindValue(':access_token', hex2bin($data['access_token']));
+        $cursor->execute();
+        setcookie(
+            'access_token',
+            null,
+            array(
+                'path' => '/',
+                'secure' => true,
+                'httponly' => false,
+            ),
+        );
+    } catch (PDOException $exception) {
+        http_response_code(400);
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['method']))
+    switch ($_POST['method']) {
+        case 'POST': post($_POST); break;
+        case 'DELETE': delete($_POST); break;
+    }

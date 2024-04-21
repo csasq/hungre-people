@@ -1,48 +1,70 @@
 <?php
-// Подключение к базе данных
-$host = 'localhost';
-$db = 'your_database';
-$user = 'your_username';
-$pass = 'your_password';
 
-try {
-    $dbh = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
-} catch (PDOException $e) {
-    die("Unable to connect to database: " . $e->getMessage());
-}
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
 
-// Логика обработки обращения
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Получаем данные из тела запроса
-    $requestData = json_decode(file_get_contents('php://input'), true);
+require '/opt/phpmailer/src/PHPMailer.php';
+require '/opt/phpmailer/src/Exception.php';
+require '/opt/phpmailer/src/SMTP.php';
 
-    // Проверяем наличие всех необходимых данных в запросе
-    $requiredFields = ['name', 'email', 'phone', 'message'];
-    foreach ($requiredFields as $field) {
-        if (!isset($requestData[$field])) {
-            http_response_code(400);
-            echo json_encode(["message" => "Missing $field"]);
-            exit();
-        }
+require '/usr/local/etc/hungre-people.csasq.ru/config.php';
+
+function post ($data) {
+    try {
+        global $config;
+        $connection = new PDO(
+            $config['db:coninfo'],
+            $config['db:username'],
+            $config['db:password'],
+        );
+        $cursor = $connection->prepare(<<< EOF
+        insert into feedback (
+            name,
+            email_address,
+            phone_number,
+            message
+        ) values (
+            :name,
+            :email_address,
+            :phone_number,
+            :message
+        );
+        EOF);
+        $cursor->bindValue(':name', $data['name']);
+        $cursor->bindValue(':email_address', $data['email_address']);
+        $cursor->bindValue(':phone_number', $data['phone_number']);
+        $cursor->bindValue(':message', $data['message']);
+        $cursor->execute();
+
+        $mail = new PHPMailer();
+        $mail->isSMTP();
+        $mail->isHTML(true);
+        $mail->Host = $config['smtp:hostname'];
+        $mail->SMTPAuth = true;
+        $mail->Username = $config['smtp:username'];
+        $mail->Password = $config['smtp:password'];
+        $mail->SMTPSecure = 'ssl';
+        $mail->Port = 465;
+        $mail->setFrom($config['smtp:username'], $config['smtp:name']);
+        $mail->addAddress($config['smtp:username'], $config['smtp:name']);
+        $mail->Subject = 'New Feedback Request';
+        $mail->Body = join(
+            '<br />',
+            array(
+                'Name: ' . $data['name'],
+                'Email Address: ' . $data['email_address'],
+                'Phone Number: ' . $data['phone_number'],
+                'Message: ' . $data['message'],
+            ),
+        );
+        $mail->send();
+    } catch (PDOException $exception) {
+        http_response_code(400);
     }
-
-    // Дополнительная валидация данных (например, проверка формата email и телефона)
-
-    // Вставляем данные обращения в таблицу
-    $stmt = $dbh->prepare("INSERT INTO feedback (name, email, phone, message) VALUES (:name, :email, :phone, :message)");
-    $stmt->bindParam(':name', $requestData['name']);
-    $stmt->bindParam(':email', $requestData['email']);
-    $stmt->bindParam(':phone', $requestData['phone']);
-    $stmt->bindParam(':message', $requestData['message']);
-    $stmt->execute();
-
-    // Возвращаем успешный ответ
-    http_response_code(201);
-    echo json_encode(["message" => "Feedback submitted successfully"]);
-    exit();
-} else {
-    http_response_code(405);
-    echo json_encode(["message" => "Method Not Allowed"]);
-    exit();
 }
-?>
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['method']))
+    switch ($_POST['method']) {
+        case 'POST': post($_POST); break;
+    }
