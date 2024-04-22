@@ -39,7 +39,7 @@ $event_2 = json_decode($cursor->fetch()['attributes'], true);
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -50,7 +50,7 @@ $event_2 = json_decode($cursor->fetch()['attributes'], true);
 </head>
 <body class="page">
     <div class="container">
-        <header class="header">
+        <header class="header" id="header">
             <nav class="header__menu">
                 <ul class="header__list list">
                     <li class="header__item"><a class="header__link link" href="#">Home</a></li>
@@ -59,7 +59,7 @@ $event_2 = json_decode($cursor->fetch()['attributes'], true);
                     <li class="header__item"><a class="header__link link" href="#booking">Booking</a></li>
                 </ul>
             </nav>
-            <img alt="колесо" class="header__image" src="images/wheel.svg">
+            <img id="wheel" alt="wheel" class="header__image" src="images/wheel.svg">
             <nav class="header__menu">
                 <ul class="header__list list">
                     <li class="header__item"><a class="header__link link" href="#menu">Menu</a></li>
@@ -123,7 +123,7 @@ $event_2 = json_decode($cursor->fetch()['attributes'], true);
                 <p class="text-container__subtitle text-container__subtitle_color_black"><?= $about_us['caption'] ?></p>
                 <p class="text-container__text text-container__text_color_black"><?= $about_us['description'] ?></p>
             </div>
-            <img class="about-us__image section__image" src="<?= $about_us['image'] ?>" alt="Раскаленные дрова в ресторане">
+            <img class="about-us__image section__image" src="<?= $about_us['image'] ?>">
         </div>
     </section>
     <section id="team" class="team section">
@@ -206,7 +206,11 @@ $event_2 = json_decode($cursor->fetch()['attributes'], true);
             <button class="menu__button">beer</button>
             <button class="menu__button">drinks</button>
         </div>
-        <div class="menu__lists" id="menu__lists"></div>
+        <div class="menu__lists" id="menu__lists">
+            <ul class="menu__list list"></ul>
+            <ul class="menu__list list"></ul>
+            <ul class="menu__list list"></ul>
+        </div>
     </section>
     <section id="events" class="events section">
         <h2 class="section__title title">PRIVATE EVENTS</h2>

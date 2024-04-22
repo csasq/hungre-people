@@ -20,7 +20,6 @@ create table static (
     primary key (id)
 );
 
--- TODO(отправить на почту)
 create table bookings (
     id              bigint                  not null auto_increment,
     name            character varying (32)  not null,
@@ -36,6 +35,7 @@ create table menu (
     id              bigint                  not null auto_increment,
     title           character varying (32)  not null,
     caption         character varying (64)  not null,
+    prise           character varying (12)  not null,
     category        enum (
                         'soupe',
                         'pizza',
@@ -49,7 +49,6 @@ create table menu (
     primary key (id)
 );
 
--- TODO(отправить на почту)
 create table feedback (
     id              bigint                  not null auto_increment,
     name            character varying (32)  not null,
@@ -58,4 +57,320 @@ create table feedback (
     message         character varying (256) not null,
     created_at      timestamp               default now() not null,
     primary key (id)
+);
+
+insert into static (
+    id,
+    attributes
+) values (
+    1,
+    '{"image": "images/about-img.png", "title": "about us", "caption": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at velit maximus, molestie est a, tempor magna.", "description": "Integer ullamcorper neque eu purus euismod, ac faucibus mauris posuere. Morbi non ultrices ligula. Sed dictum, enim sed ullamcorper feugiat, dui odio vehicula eros, a sollicitudin lorem quam nec sem. Mauris tincidunt feugiat diam convallis pharetra. Nulla facilisis semper laoreet."}'
+), (
+    2,
+    '{"image": "images/cook.png", "title": "master chef", "caption": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at velit maximus, molestie est a, tempor magna.", "description": "Integer ullamcorper neque eu purus euismod, ac faucibus mauris posuere. Morbi non ultrices ligula. Sed dictum, enim sed ullamcorper feugiat, dui odio vehicula eros, a sollicitudin lorem quam nec sem. Mauris tincidunt feugiat diam convallis pharetra. Nulla facilisis semper laoreet."}'
+), (
+    3,
+    '{"image": "images/pancakes-img.png", "title": "chocolate pancakes", "caption": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at velit maximus, molestie est a, tempor magna.", "description": "Integer ullamcorper neque eu purus euismod, ac faucibus mauris posuere. Morbi non ultrices ligula. Sed dictum, enim sed ullamcorper feugiat, dui odio vehicula eros, a sollicitudin lorem quam nec sem. Mauris tincidunt feugiat diam convallis pharetra. Nulla facilisis semper laoreet."}'
+), (
+    4,
+    '{"image": "images/rings.png", "title": "weddings"}'
+), (
+    5,
+    '{"image": "images/party.png", "title": "corporate parties"}'
+);
+
+insert into menu (
+    title,
+    caption,
+    prise,
+    category,
+    priority
+) values (
+    'SOUPE QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'soupe',
+    true
+), (
+    'SOUPE QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'soupe',
+    true
+), (
+    'SOUPE QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'soupe',
+    true
+), (
+    'SOUPE QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'soupe',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PIZZA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pizza',
+    true
+), (
+    'PASTA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pasta',
+    true
+), (
+    'PASTA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pasta',
+    true
+), (
+    'PASTA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pasta',
+    true
+), (
+    'PASTA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pasta',
+    true
+), (
+    'PASTA QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'pasta',
+    true
+), (
+    'DESERT QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'desert',
+    true
+), (
+    'DESERT QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'desert',
+    true
+), (
+    'DESERT QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'desert',
+    true
+), (
+    'WINE QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'wine',
+    true
+), (
+    'WINE QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'wine',
+    true
+), (
+    'WINE QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'wine',
+    true
+), (
+    'WINE QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'wine',
+    true
+), (
+    'WINE QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'wine',
+    true
+), (
+    'WINE QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'wine',
+    true
+), (
+    'WINE QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'wine',
+    true
+), (
+    'BEER QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'beer',
+    true
+), (
+    'BEER QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'beer',
+    true
+), (
+    'BEER QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'beer',
+    true
+), (
+    'BEER QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'beer',
+    true
+), (
+    'DRINKS QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'drinks',
+    true
+), (
+    'DRINKS QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'drinks',
+    true
+), (
+    'DRINKS QUATRO STAGIONI . . .',
+    'Integer ullamcorper neque eu purus euismod',
+    '55,68 USD',
+    'drinks',
+    true
 );

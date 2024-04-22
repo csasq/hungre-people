@@ -2,6 +2,8 @@ const firstBurgerLine = document.getElementById('first-line');
 const secondBurgerLine = document.getElementById('second-line');
 const thirdBurgerLine = document.getElementById('third-line');
 
+const headerElement = document.querySelector('#header');
+const aboutUsSection = document.querySelector('#about');
 const signInLink = document.querySelector('a[href="#sign-in"]');
 const signUpLink = document.querySelector('a[href="#sign-up"]');
 const accountLink = document.querySelector('a[href="#account"]');
@@ -227,7 +229,7 @@ bookingForm.addEventListener('submit', async (e) => {
     const submitButton = bookingForm.querySelector('#booking__submit');
     submitButton.disabled = true;
     const emailAddressElement = bookingForm.querySelector('#booking__email_address');
-    const name = bookingForm.querySelector('#booking__name').value.toLowerCase().trim();
+    const name = bookingForm.querySelector('#booking__name').value.trim();
     const emailAddress = emailAddressElement.value.toLowerCase().trim();
     const phoneNumber = bookingForm.querySelector('#booking__phone_number').value.toLowerCase().trim();
     const peopleNumber = bookingForm.querySelector('#booking__people_number').value.toLowerCase().trim();
@@ -258,10 +260,10 @@ contactForm.addEventListener('submit', async (e) => {
     const submitButton = contactForm.querySelector('#contact__submit');
     submitButton.disabled = true;
     const emailAddressElement = contactForm.querySelector('#contact__email_address');
-    const name = contactForm.querySelector('#contact__name').value.toLowerCase().trim();
+    const name = contactForm.querySelector('#contact__name').value.trim();
     const emailAddress = emailAddressElement.value.toLowerCase().trim();
     const phoneNumber = contactForm.querySelector('#contact__phone_number').value.toLowerCase().trim();
-    const message = contactForm.querySelector('#contact__message').value.toLowerCase().trim();
+    const message = contactForm.querySelector('#contact__message').value.trim();
     const body = new URLSearchParams();
     body.set('method', 'POST');
     body.set('name', name);
@@ -281,37 +283,47 @@ contactForm.addEventListener('submit', async (e) => {
     submitButton.disabled = false;
 });
 
-const templateMenu = (target) => {
-    menuListsElement.replaceChildren();
-    for (let i = 0; i < 3; i++) {
-        const list = document.createElement('ul');
-        list.classList.add('menu__list');
-        list.classList.add('list');
-        for (let j = 0; j < 7; j++) {
+const templateMenu = async (category) => {
+    const searchParams = new URLSearchParams();
+    searchParams.set('category', category);
+    const url = new URL(location);
+    url.pathname = '/api/menu/';
+    url.search = searchParams.toString();
+    const response = await fetch(url, {
+        method: 'get',
+    });
+    if (response.ok) {
+        const data = await response.json();
+        menuListsElement.children[0].replaceChildren();
+        menuListsElement.children[1].replaceChildren();
+        menuListsElement.children[2].replaceChildren();
+        for (let i = 0; i < 21; i++) {
+            const dish = data.shift();
+            if (!dish)
+                break;
             const item = document.createElement('li');
             item.classList.add('menu__item');
             const text = document.createElement('div');
             text.classList.add('menu__text');
             const name = document.createElement('h3');
             name.classList.add('menu__name');
-            name.textContent = `${target.toUpperCase()} QUATRO STAGIONI . . .`;
+            name.textContent = dish.title;
             const description = document.createElement('p');
             description.classList.add('menu__description');
-            description.textContent = 'Integer ullamcorper neque eu purus euismod';
+            description.textContent = dish.caption;
             const price = document.createElement('p');
             price.classList.add('menu__price');
-            price.textContent = '55,68 USD';
+            price.textContent = dish.prise;
             text.append(name);
             text.append(description);
             item.append(text);
             item.append(price);
-            list.append(item);
+            menuListsElement.children[i % 3].append(item);
         }
-        menuListsElement.append(list);
     }
 };
 
-templateMenu('pizza');
+templateMenu('pizza').then();
 
 menuButtonElements.forEach(element => element.addEventListener('click', () => templateMenu(element.textContent)));
 
@@ -337,10 +349,21 @@ ymaps3.ready.then(() => {
     content.style.border = 'solid 2px white';
     content.style.outline = 'solid 2px red';
     content.style.borderRadius = '1rem';
-    // content.style.overflow = 'hidden';
     const marker = new YMapMarker({
         coordinates: [37.611311, 54.183523],
         draggable: false,
     }, content);
     map.addChild(marker);
 });
+
+const headerElementOnScroll = () => {
+    const aboutUsSectionBoundingClientRect = aboutUsSection.getBoundingClientRect();
+    if (aboutUsSectionBoundingClientRect.y + aboutUsSectionBoundingClientRect.height < window.scrollY)
+        headerElement.classList.add('header__fixed');
+    else
+        headerElement.classList.remove('header__fixed');
+};
+
+window.addEventListener('scroll', headerElementOnScroll);
+window.addEventListener('resize', headerElementOnScroll);
+headerElementOnScroll();

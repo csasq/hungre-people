@@ -21,3 +21,18 @@
         margin-bottom: 50px;
     }
 }
+
+@media screen and (min-width: 1000px) {
+    .header__fixed {
+        position: fixed;
+        width: 100%;
+        max-width: 1440px;
+        z-index: 99999;
+        backdrop-filter: blur(4rem) brightness(0.5);
+    }
+
+    .header__fixed #wheel {
+        height: 3rem;
+        margin-bottom: 1.5rem;
+    }
+}
